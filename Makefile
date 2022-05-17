@@ -2,6 +2,10 @@
 up:
 	docker-compose up
 
+.PHONY: start
+start:
+	docker-compose up -d
+
 .PHONY: build
 build:
 	docker-compose build
@@ -13,3 +17,7 @@ down:
 .PHONY: docs
 docs:
 	cd app && yarn start:dev
+
+.PHONY: env
+env:
+	cp app/.env.sample app/.env && cp hash/.env.sample hash/.env
