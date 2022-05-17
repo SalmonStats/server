@@ -16,7 +16,7 @@ down:
 
 .PHONY: docs
 docs:
-	cd app && yarn start:dev
+	cd app && yarn start:dev && mv app/docs docs
 
 .PHONY: env
 env:
