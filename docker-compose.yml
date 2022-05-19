@@ -15,16 +15,16 @@ services:
       timeout: 5s
       retries: 5
 
-  migration:
-    container_name: salmon_stats_migration
-    build:
-      context: ./app
-    ports:
-      - $PRISMA_STUDIO_PORT:$PRISMA_STUDIO_PORT
-    depends_on:
-      db:
-        condition: service_healthy
-    command: [sh, -c, yarn prisma generate, yarn prisma migrate deploy]
+  # migration:
+  #   container_name: salmon_stats_migration
+  #   build:
+  #     context: ./app
+  #   ports:
+  #     - $PRISMA_STUDIO_PORT:$PRISMA_STUDIO_PORT
+  #   depends_on:
+  #     db:
+  #       condition: service_healthy
+  #   command: [sh, -c, yarn prisma generate, yarn prisma migrate deploy]
 
   app:
     container_name: salmon_stats_app
@@ -32,18 +32,34 @@ services:
       context: ./app
     ports:
       - 3000:3000
-    depends_on:
-      migration:
-        condition: service_completed_successfully
-    command: [sh, -c, yarn prisma generate && yarn build && yarn start:prod]
+    # depends_on:
+    #   migration:
+    #     condition: service_completed_successfully
+    command:
+      [
+        sh,
+        -c,
+        yarn prisma migrate dev --name init && yarn build && yarn start:prod,
+      ]
+
+  studio:
+    container_name: salmon_stats_studio
+    build:
+      context: ./app
+    ports:
+      - 5555:5555
+    # depends_on:
+    #   migration:
+    #     condition: service_completed_successfully
+    command: [sh, -c, yarn prisma studio]
 
   hash:
     container_name: salmon_stats_hash
     build:
       context: ./hash
-    depends_on:
-      migration:
-        condition: service_completed_successfully
+    # depends_on:
+    #   migration:
+    #     condition: service_completed_successfully
     ports:
       - 3001:3001
 

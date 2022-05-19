@@ -21,3 +21,7 @@ docs:
 .PHONY: env
 env:
 	cp app/.env.sample app/.env && cp hash/.env.sample hash/.env
+
+.PHONY: update
+update:
+	git submodule update --remote
