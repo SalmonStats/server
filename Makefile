@@ -25,3 +25,7 @@ env:
 .PHONY: update
 update:
 	git submodule update --remote
+
+.PHONY: init
+init:
+	git submodule update --init
