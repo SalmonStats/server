@@ -5,4 +5,4 @@
 [submodule "app"]
 	path = app
 	url = git@github.com:SalmonStats/api.git
-	branch = master
+	branch = develop
