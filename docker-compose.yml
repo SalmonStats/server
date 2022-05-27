@@ -6,7 +6,6 @@ services:
       context: ./app
     ports:
       - 3000:3000
-    command: [sh, -c, yarn prisma generate && yarn build && yarn start:prod]
 
   nginx:
     container_name: salmon_stats_server
