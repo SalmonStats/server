@@ -1,43 +1,12 @@
 version: "3.8"
 services:
-  # db:
-  #   image: postgres:14.2
-  #   container_name: salmon_stats_db
-  #   ports:
-  #     - 5432:5432
-  #   environment:
-  #     POSTGRES_USER: $POSTGRES_USER
-  #     POSTGRES_PASSWORD: $POSTGRES_PASSWORD
-  #     POSTGRES_DB: $POSTGRES_DB
-  #   healthcheck:
-  #     test: ["CMD-SHELL", "pg_isready -d $${POSTGRES_DB} -U $${POSTGRES_USER}"]
-  #     interval: 10s
-  #     timeout: 5s
-  #     retries: 5
-
   app:
     container_name: salmon_stats_app
     build:
       context: ./app
     ports:
       - 3000:3000
-    command:
-      [sh, -c, yarn prisma migrate deploy && yarn build && yarn start:prod]
-
-  # studio:
-  #   container_name: salmon_stats_studio
-  #   build:
-  #     context: ./app
-  #   ports:
-  #     - 5555:5555
-  #   command: [sh, -c, yarn prisma studio]
-
-  # hash:
-  #   container_name: salmon_stats_hash
-  #   build:
-  #     context: ./hash
-  #   ports:
-  #     - 3001:3001
+    command: [sh, -c, yarn prisma generate && yarn build && yarn start:prod]
 
   nginx:
     container_name: salmon_stats_server
